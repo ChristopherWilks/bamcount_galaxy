@@ -1,0 +1,84 @@
+<tool id="bamcount" name="Summarize coverage from a BAM (bamcount)" version="0.1.0">
+    <requirements>
+        <requirement type="package" version="0.2.6">bamcount</requirement>
+    </requirements>
+    <command detect_errors="exit_code"><![CDATA[
+        bamcount "$input1" --threads $threads --coverage --no-head --require-mdz --min-unique-qual $min_uniq_qual --frag-dist bc --bigwig bc --annotation $annotation bc --auc bc --alts bc
+    ]]></command>
+    <inputs>
+        <param type="data" name="input1" format="bam" />
+    </inputs>
+    <outputs>
+        <data name="output1" format="auc.tsv" from_work_dir="bc.auc.tsv" />
+    </outputs>
+    <tests>
+        <test>
+            <param name="input1" value="test.bam"/>
+            <output name="output1" file="bc.auc.tsv"/>
+        </test>
+    </tests>
+    <help><![CDATA[
+        bamcount 0.2.6
+
+    BAM and BigWig utility.
+
+    Usage:
+      bamcount <bam> [options]
+
+    Options:
+      -h --help            Show this screen.
+      --version            Show version.
+      --threads            # of threads to do BAM decompression
+
+    Non-reference summaries:
+      --alts <prefix>      Print differing from ref per-base coverages
+                           Writes to a CSV file <prefix>.alts.tsv
+      --include-softclip   Print a record for soft-clipped bases
+      --include-n          Print mismatch records when mismatched read base is N
+      --print-qual         Print quality values for mismatched bases
+      --delta              Print POS field as +/- delta from previous
+      --require-mdz        Quit with error unless MD:Z field exists everywhere it's
+                           expected
+      --no-head            Don't print sequence names and lengths in header
+
+    Coverage and quantification:
+      --coverage           Print per-base coverage (slow but totally worth it)
+      --auc <prefix>       Print per-base area-under-coverage, will generate it for the genome
+                           and for the annotation if --annotation is also passed in
+                           Writes to a TSV file <prefix>.auc.tsv
+      --bigwig <prefix>    Output coverage as BigWig file(s).  Writes to <prefix>.all.bw
+                           (also <prefix>.unique.bw when --min-unique-qual is specified).
+                           Requires libBigWig.
+      --annotation <bed> <prefix>
+                           Path to BED file containing list of regions to sum coverage over
+                           (tab-delimited: chrm,start,end)
+      --min-unique-qual <int>
+                           Output second bigWig consisting built only from alignments
+                           with at least this mapping quality.  --bigwig must be specified.
+                           Also produces second set of annotation sums based on this coverage
+                           if --annotation is enabled
+      --double-count       Allow overlapping ends of PE read to count twice toward
+                           coverage
+      --num-bases          Report total sum of bases in alignments processed (that pass filters)
+
+    Other outputs:
+      --read-ends          Print counts of read starts/ends, if --min-unique-qual is set
+                           then only the alignments that pass that filter will be counted here
+                           Writes to 2 TSV files: <prefix>.starts.tsv, <prefix>.ends.tsv
+      --frag-dist <prefix> Print fragment length distribution across the genome
+                           Writes to a TSV file <prefix>.frags.tsv
+      --echo-sam           Print a SAM record for each aligned read
+      --ends               Report end coordinate for each read (useful for debugging)
+    ]]></help>
+    <citations>
+        <citation type="bibtex">
+@misc{githubbamcount,
+  author = {Wilks, Christopher},
+  year = {2019},
+  title = {bamcount},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  url = {https://github.com/BenLangmead/bamcount},
+}</citation>
+    </citations>
+</tool>
