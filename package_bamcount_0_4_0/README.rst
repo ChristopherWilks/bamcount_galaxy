@@ -1,2 +1,0 @@
-bamcount Galaxy Dependency Package
-==================================
