@@ -1,30 +1,25 @@
-<tool id="bamcount" name="Summarize coverage from a BAM (bamcount)" version="0.2.0">
-    <requirements>
-        <requirement type="package" version="0.4.0">bamcount</requirement>
-    </requirements>
-    <command detect_errors="exit_code"><![CDATA[
-        bamcount "$input1" --threads $threads --coverage --no-head --require-mdz --min-unique-qual $min_uniq_qual --frag-dist bc --bigwig bc --annotation $annotation bc --auc bc --alts bc --junctions bc
-    ]]></command>
-    <inputs>
-        <param type="file" name="inbam" format="bam" />
-    </inputs>
-    <outputs>
-        <data name="auc" format="Tabular" from_work_dir="bc.auc.tsv" />
-        <data name="alts" format="txt" from_work_dir="bc.alts.tsv" />
-        <data name="frags" format="txt" from_work_dir="bc.frags.tsv" />
-        <data name="jxs" format="Tabular" from_work_dir="bc.jxs.tsv" />
-        <data name="all_bed" format="bed" from_work_dir="bc.all.tsv" />
-        <data name="unique_bed" format="bed" from_work_dir="bc.unique.tsv" />
-        <data name="all_bw" format="bigWig" from_work_dir="bc.all.bw" />
-        <data name="unique_bw" format="bigWig" from_work_dir="bc.unique.bw" />
-    </outputs>
-    <tests>
-        <test>
-            <param name="inbam" value="test.bam"/>
-            <output name="auc" file="bc.auc.tsv"/>
-        </test>
-    </tests>
-    <help><![CDATA[
+<?xml version="1.0"?>
+<tool_dependency>
+<!--
+    <package name="htslib" version="1.9"/>
+    <package name="libbigwig" version="0.4.2"/>
+-->
+    <package name="bamcount" version="0.4.0">
+        <install version="1.0">
+            <actions_group>
+                <actions architecture="x86_64" os="linux">
+                    <action type="download_by_url">https://github.com/ChristopherWilks/bamcount/releases/download/0.4.0/bamcount-0.4.0.zip</action>
+                    <action type="move_directory_files">
+                        <source_directory>.</source_directory>
+                        <destination_directory>$INSTALL_DIR</destination_directory>
+                    </action>
+                </actions>
+                <action type="set_environment">
+                    <environment_variable action="prepend_to" name="PATH">$INSTALL_DIR</environment_variable>
+                </action>
+            </actions_group>
+        </install>
+        <readme><![CDATA[
 bamcount 0.4.0
 
 BAM and BigWig utility.
@@ -93,16 +88,6 @@ Other outputs:
   --echo-sam           Print a SAM record for each aligned read
   --ends               Report end coordinate for each read (useful for debugging)
   --test-polya         Lower Poly-A filter minimums for testing (only useful for debugging/testing)
-  ]]></help>
-    <citations>
-        <citation type="bibtex">
-  @misc{githubbamcount,
-  author = {Wilks, Christopher},
-  year = {2019},
-  title = {bamcount},
-  publisher = {GitHub},
-  journal = {GitHub repository},
-  url = {https://github.com/ChristopherWilks/bamcount},
-}</citation>
-    </citations>
-</tool>
+        ]]></readme>
+    </package>
+</tool_dependency>
