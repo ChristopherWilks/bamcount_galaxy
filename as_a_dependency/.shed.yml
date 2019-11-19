@@ -1,0 +1,11 @@
+categories:
+- Tool Dependency Packages
+description: Contains a tool dependency definition that downloads version 0.4.0 of bamcount
+long_description: |
+    bamcount is a tool for efficiently computing coverage statistics over a DNA/RNA BAM file.
+    It is aligner agnostic and counts everything over only one pass through the BAM.
+    https://github.com/BenLangmead/bamcount
+name: package_bamcount_0_4_0
+owner: ChristoperWilks
+remote_repository_url: https://github.com/ChristopherWilks/bamcount_galaxy
+type: tool_dependency_definition

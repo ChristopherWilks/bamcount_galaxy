@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<tool_dependency>
+<!--
+    <package name="htslib" version="1.9"/>
+    <package name="libbigwig" version="0.4.2"/>
+-->
+    <package name="bamcount" version="0.4.0">
+        <install version="1.0">
+            <actions_group>
+                <actions architecture="x86_64" os="linux">
+                    <action type="download_by_url">https://github.com/ChristopherWilks/bamcount/releases/download/0.4.0/bamcount-0.4.0.zip</action>
+                    <action type="move_directory_files">
+                        <source_directory>.</source_directory>
+                        <destination_directory>$INSTALL_DIR</destination_directory>
+                    </action>
+                </actions>
+                <action type="set_environment">
+                    <environment_variable action="prepend_to" name="PATH">$INSTALL_DIR</environment_variable>
+                </action>
+            </actions_group>
+        </install>
+        <readme><![CDATA[
+bamcount 0.4.0
+
+BAM and BigWig utility.
+
+Usage:
+  bamcount <bam> [options]
+
+Options:
+  -h --help            Show this screen.
+  --version            Show version.
+  --threads            # of threads to do BAM decompression
+
+Extract basic junction information from the BAM, including co-occurrence
+  --junctions <prefix> Extract jx coordinates, strand, and anchor length, per read
+                       Writes to a TSV file <prefix>.jxs.tsv
+
+Extract reads from BAM into FASTQ (exclusive of all other modes):
+  --bam2fastq <prefix> Extract all reads from the passed in BAM and output as FASTQs
+                       Uses prefix to name the fastq(s)
+  --filter-out         SAM bit flags to filter out
+  --filter-in          SAM bit flags to filter in
+  --re-reverse         If read is reversed in alignment, re-reverse it in output
+  --one-file           If you know file is not paired or just want all reads in one file
+
+Non-reference summaries:
+  --alts <prefix>              Print differing from ref per-base coverages
+                               Writes to a CSV file <prefix>.alts.tsv
+  --include-softclip <prefix>  Print a record to the alts CSV for soft-clipped bases
+                               Writes total counts to a separate TSV file <prefix>.softclip.tsv
+  --only-polya                 If --include-softclip, only print softclips which are mostly A's or T's
+  --include-n                  Print mismatch records when mismatched read base is N
+  --print-qual                 Print quality values for mismatched bases
+  --delta                      Print POS field as +/- delta from previous
+  --require-mdz                Quit with error unless MD:Z field exists everywhere it's
+                               expected
+  --no-head                    Don't print sequence names and lengths in header
+
+Coverage and quantification:
+  --coverage           Print per-base coverage (slow but totally worth it)
+  --auc <prefix>       Print per-base area-under-coverage, will generate it for the genome
+                       and for the annotation if --annotation is also passed in
+                       Writes to a TSV file <prefix>.auc.tsv
+  --bigwig <prefix>    Output coverage as BigWig file(s).  Writes to <prefix>.all.bw
+                       (also <prefix>.unique.bw when --min-unique-qual is specified).
+                       Requires libBigWig.
+  --annotation <bed> <prefix>
+                       Path to BED file containing list of regions to sum coverage over
+                       (tab-delimited: chrm,start,end)
+  --keep-bam-order     Output annotation coverage in the order chromosomes appear in the BAM file.
+                       The default is to output annotation coverage in the order chromosomes appear in the BED file.
+  --min-unique-qual <int>
+                       Output second bigWig consisting built only from alignments
+                       with at least this mapping quality.  --bigwig must be specified.
+                       Also produces second set of annotation sums based on this coverage
+                       if --annotation is enabled
+  --double-count       Allow overlapping ends of PE read to count twice toward
+                       coverage
+  --num-bases          Report total sum of bases in alignments processed (that pass filters)
+
+Other outputs:
+  --read-ends          Print counts of read starts/ends, if --min-unique-qual is set
+                       then only the alignments that pass that filter will be counted here
+                       Writes to 2 TSV files: <prefix>.starts.tsv, <prefix>.ends.tsv
+  --frag-dist <prefix> Print fragment length distribution across the genome
+                       Writes to a TSV file <prefix>.frags.tsv
+  --echo-sam           Print a SAM record for each aligned read
+  --ends               Report end coordinate for each read (useful for debugging)
+  --test-polya         Lower Poly-A filter minimums for testing (only useful for debugging/testing)
+]]></readme>
+    </package>
+</tool_dependency>
