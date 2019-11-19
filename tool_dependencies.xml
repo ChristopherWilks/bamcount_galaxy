@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <tool_dependency>
     <package name="bamcount" version="0.4.0">
-        <repository changeset_revision="cb4c1efac7af" name="bamcount_test" owner="chrisw" prior_installation_required="False" toolshed="http://testtoolshed.g2.bx.psu.edu" />
+        <repository changeset_revision="bf68642a6d3e" name="bamcount_test" owner="chrisw" prior_installation_required="False" toolshed="http://testtoolshed.g2.bx.psu.edu" />
     </package>
 </tool_dependency>
